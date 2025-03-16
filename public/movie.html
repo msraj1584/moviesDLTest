@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M S RAJ Movies</title>
+  <link rel="stylesheet" href="/styles.css">
+  
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "nesq9bvd54");
+</script>
+</head>
+<body>
+  <h1>M S RAJ Movies</h1>
+  <div class="loader"></div>
+  <div class="video-container">           
+    <p id="videoName"></p>
+  <video id="videoPlayer" controls width="600">
+    <source id="videoSource" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <a href="#" id="downloadLink">
+    <button>Download</button>
+  </a>
+</div>  
+<!-- <div class="sch-container">
+  <h4>Screenshots</h4>
+  <img id="screenshot" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" style="width: 100%; height: auto;">
+</div> -->
+<div style="margin-top: 10px; text-align: center; ">
+ <a href="https://msraj.in" style="text-decoration: none; color: #000;">website &#128073; msraj.in  &#127760;</a>
+  <br>
+  <a href="mailto:admin@msraj.in" style="text-decoration: none; color: #000;">email &#128073; admin@msraj.in &#128231;</a>
+</div>
+  <script>
+       document.addEventListener('DOMContentLoaded', () => {
+      const loader = document.querySelector('.loader');
+      const videoContainer = document.querySelector('.video-container');
+      const videoPlayer = document.getElementById('videoPlayer');
+      const videoSource = document.getElementById('videoSource');
+      const videoName = document.getElementById('videoName');
+      const downloadLink = document.getElementById('downloadLink');
+      //const screenshotContainer = document.querySelector('sch-container');  
+      //const screenshot= document.getElementById('screenshot');  
+
+      //screenshotContainer.style.display = 'none';
+      // Show loader initially
+      loader.style.display = 'block';
+
+      // Function to get query parameters
+      function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+      const videoId = getQueryParam('id'); // Get video ID from URL parameters
+
+      if (videoId) {
+        fetch(`/.netlify/functions/videoHandler?id=${videoId}`)
+          .then(response => response.json())
+          .then(data => {
+            // console.log(data);
+            // console.log('File Code:',data.filecode);
+            //console.log('Image Link:',data.player_img);
+            if (data.videoUrl) {
+              videoSource.src = data.videoUrl;
+              videoPlayer.load();
+              // Update video name and download link
+              videoName.textContent = data.videoName || 'Untitled Video'; // Provide a fallback name
+              downloadLink.href = data.videoUrl;
+              if (data.player_img !== undefined && data.player_img !== null) {
+    videoPlayer.poster = data.player_img;
+    //screenshotContainer.style.display = 'block';
+    //screenshot.src=data.player_img;
+}
+              // Hide loader and show video
+              loader.style.display = 'none';
+              videoContainer.style.display = 'block';
+            } else {
+              videoName.innerHTML = 'Movie Not Found :(';
+              //screenshot.src='/img/404.jpg';
+              videoPlayer.poster = '/img/404.jpg';
+              console.error('Error:', data.error);
+
+              videoContainer.style.display = 'block';
+              // Hide loader
+              loader.style.display = 'none';
+            }
+          })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+
+            // Hide loader
+            loader.style.display = 'none';
+          });
+      } else {
+        console.error('Video ID not found in query parameters');
+
+        // Hide loader
+        loader.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
