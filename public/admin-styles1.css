@@ -128,11 +128,11 @@ form button:hover {
 }
 
 /* Responsive adjustments */
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
     .button-group button {
-        flex: 1 1 100%; /* Stack buttons vertically on small screens */
+        flex: 1 1 100%; 
     }
-}
+} */
 /* Responsive design */
 @media (max-width: 768px) {
     form {
