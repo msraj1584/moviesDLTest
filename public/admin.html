@@ -88,7 +88,7 @@
                         shareButton.textContent = 'Share';
                         shareButton.onclick = () => {
                             //const videoUrl = `https://msrajmovies.netlify.app/movie?id=${video.id}`;
-                            const videoUrl = `🎬 ${video.name} \r\n*click below link to download👇🏻*\r\n${baseUrl}/movie?id=${video.id} `;
+                            const videoUrl = `🎬 ${video.name} \r\n \r\n*_click below link to download_*👇🏻\r\n${baseUrl}/movie?id=${video.id} `;
                             navigator.clipboard.writeText(videoUrl)
                                 .then(() => {
                                     responseMessage.textContent = 'Share link copied to clipboard!';
